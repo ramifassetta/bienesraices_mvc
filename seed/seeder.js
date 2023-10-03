@@ -1,10 +1,9 @@
 import { exit } from "node:process"; //Asi se importa exit, es para terminar la ejecucion del codigo
 import categorias from "./categorias.js";
 import precios from "./precios.js";
-import Categoria from "../models/Categoria.js";
-import Precio from "../models/Precio.js";
+import usuarios from "./usuarios.js";
 import db from "../config/db.js";
-import { Categoria, Precio, } from "../models/index.js";
+import { Categoria, Precio, } from "../models/index.js"; //importa las relaciones, es mejor importart esto q solo el modelo
 
 const importarDatos = async () => {
     try {
@@ -17,7 +16,8 @@ const importarDatos = async () => {
         //Insertamos los datos
         await Promise.all([
             Categoria.bulkCreate(categorias),
-            Precio.bulkCreate(precios)
+            Precio.bulkCreate(precios),
+            Usuario.bulkCreate(usuarios),
         ]);
         console.log("Datos importados correctamente");
         exit(); //El exit sin numero o con 0 significa que termina la ejecucion del codigo correctamente
