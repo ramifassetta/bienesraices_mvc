@@ -34,6 +34,7 @@ const autenticar = async (req, res) => {
     //comprobar si el usuario existe
 
     const usuario = await Usuario.findOne({where : {email}});
+    
     if(!usuario){
         return res.render("auth/login", {
             pagina: "Iniciar Sesión",

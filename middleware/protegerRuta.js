@@ -15,9 +15,15 @@ const protegerRuta = async (req, res, next) => {
     try {
         //Verifico que sea valido que no haya expirado
         const decoded = jwt.verify(_token, process.env.JWT_SECRET)
-        const usuario = await Usuario.findByPk(decoded.id)
+        const usuario = await Usuario.scope("eliminarPassword").findByPk(decoded.id)
 
-        console.log(usuario)
+        //Almacenar el usuario en el Req
+        if(usuario){
+            req.usuario = usuario;
+        } else {
+            return res.redirect("/auth/login")
+        }
+        return next();
 
     } catch (error) {
         //si da error, aca lo limpia y hace el redirect al login
